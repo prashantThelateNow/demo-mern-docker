@@ -1,0 +1,43 @@
+
+version: '3'
+services:
+#  frontend:
+#    container_name: reactContainer
+#    build: 
+#      context: ./react-app
+#    ports: 
+#      - 3000:80
+
+#  backend:
+#    container_name: nodeContainer
+#    build:
+#      context: ./node
+#    ports:
+#      - 5000:80
+
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3050:80"
+
+  api:
+    container_name: nodeContainer
+    build:
+      dockerfile: Dockerfile
+      context: "./node"
+    ports:
+      - "5000:5000"
+
+  client:
+    container_name: reactContainer
+    build:
+      dockerfile: Dockerfile
+      context: ./react-app
+    ports:
+      - "3000:3000"
